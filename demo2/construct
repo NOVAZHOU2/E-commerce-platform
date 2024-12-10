@@ -1,0 +1,58 @@
+ecommerce-system-backend/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── com/
+│   │   │   │   ├── ecommerce/
+│   │   │   │   │   ├── controller/          # 控制层，处理HTTP请求
+│   │   │   │   │   │   ├── UserController.java
+│   │   │   │   │   │   ├── ProductController.java
+│   │   │   │   │   │   ├── OrderController.java
+│   │   │   │   │   │   └── InventoryController.java
+│   │   │   │   │   ├── service/             # 服务层，处理业务逻辑
+│   │   │   │   │   │   ├── UserService.java
+│   │   │   │   │   │   ├── ProductService.java
+│   │   │   │   │   │   ├── OrderService.java
+│   │   │   │   │   │   └── InventoryService.java
+│   │   │   │   │   ├── repository/          # 数据访问层（Repository），与数据库交互
+│   │   │   │   │   │   ├── UserRepository.java
+│   │   │   │   │   │   ├── ProductRepository.java
+│   │   │   │   │   │   ├── OrderRepository.java
+│   │   │   │   │   │   └── InventoryRepository.java
+│   │   │   │   │   ├── model/               # 数据模型层（Entity），定义数据库表的映射
+│   │   │   │   │   │   ├── User.java
+│   │   │   │   │   │   ├── Product.java
+│   │   │   │   │   │   ├── Order.java
+│   │   │   │   │   │   └── Inventory.java
+│   │   │   │   │   ├── dto/                 # 数据传输对象（DTO），用于接收和返回请求数据
+│   │   │   │   │   │   ├── UserDTO.java
+│   │   │   │   │   │   ├── ProductDTO.java
+│   │   │   │   │   │   ├── OrderDTO.java
+│   │   │   │   │   │   └── InventoryDTO.java
+│   │   │   │   │   ├── exception/           # 自定义异常处理
+│   │   │   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   │   │   ├── ResourceNotFoundException.java
+│   │   │   │   │   │   └── BadRequestException.java
+│   │   │   │   │   ├── config/              # 配置类
+│   │   │   │   │   │   ├── SwaggerConfig.java
+│   │   │   │   │   │   ├── WebConfig.java
+│   │   │   │   │   │   └── SecurityConfig.java
+│   │   │   │   │   └── EcommerceApplication.java   # Spring Boot 启动类
+│   │   ├── resources/
+│   │   │   ├── application.properties       # 配置文件，配置数据库、端口等信息
+│   │   │   ├── static/                     # 静态资源文件（例如HTML、CSS、JavaScript）
+│   │   │   └── templates/                  # 视图模板（如果使用 Thymeleaf 或其他模板引擎）
+│   ├── test/
+│   │   ├── java/
+│   │   │   ├── com/
+│   │   │   │   ├── ecommerce/
+│   │   │   │   │   ├── controller/
+│   │   │   │   │   │   └── UserControllerTest.java  # 控制层单元测试
+│   │   │   │   │   ├── service/
+│   │   │   │   │   │   └── UserServiceTest.java   # 服务层单元测试
+│   │   │   │   │   ├── repository/
+│   │   │   │   │   │   └── UserRepositoryTest.java # 仓库层单元测试
+│   │   │   │   │   └── model/
+│   │   │   │   │       └── UserTest.java         # 模型类单元测试
+├── pom.xml  # Maven 构建文件，管理依赖、插件等
+└── .gitignore  # Git 忽略文件
