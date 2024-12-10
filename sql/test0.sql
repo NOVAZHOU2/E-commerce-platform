@@ -1,3 +1,4 @@
+create database ecp;
 use ecp;
 -- 创建用户信息表
 CREATE TABLE users (
