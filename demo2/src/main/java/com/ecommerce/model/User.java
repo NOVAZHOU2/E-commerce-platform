@@ -1,18 +1,21 @@
 package com.ecommerce.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Table(name = "users",schema = "ecp")
 @Entity
 public class User {
 
     @Id
     @GeneratedValue
+    @Column(name = "user_id")
     private Long id;
+
     private String username;
+    @Column(name = "password_hash")
     private String password;  // 密码字段
     private String email;
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     // Getter 和 Setter 方法

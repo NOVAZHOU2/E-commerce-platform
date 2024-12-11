@@ -13,7 +13,7 @@
     <description>An e-commerce platform using Spring Boot</description>
 
     <properties>
-        <java.version>11</java.version> <!-- 可以根据你的环境调整 -->
+        <java.version>17</java.version> <!-- 可以根据你的环境调整 -->
         <spring.boot.version>2.7.10</spring.boot.version>
     </properties>
 
@@ -55,6 +55,16 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+        </dependency>
+
         <!-- Spring Boot Starter Thymeleaf: 用于页面渲染（如果需要使用前端模板）-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -80,7 +90,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Spring Boot Starter Test: 用于单元测试和集成测试 -->
@@ -135,6 +144,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

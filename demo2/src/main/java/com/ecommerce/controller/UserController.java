@@ -1,10 +1,18 @@
 package com.ecommerce.controller;
 
+import com.ecommerce.dto.LoginDTO;
+import com.ecommerce.dto.UserDTO;
 import com.ecommerce.model.User;
+import com.ecommerce.result.Result;
 import com.ecommerce.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -14,19 +22,22 @@ public class UserController {
 
     // 用户注册
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userService.register(user);
+    public Result<User> register(@RequestBody UserDTO userDTO) {
+        log.info("user register {}",userDTO);
+        User user = userService.register(userDTO);
+        return Result.success(user);
     }
 
     // 用户登录
     @PostMapping("/login")
-    public String login(@RequestBody User user) {
-        return userService.login(user);
+    public Result<String> login(@RequestBody LoginDTO user) {
+        log.info("user login{}",user);
+        return Result.success(userService.login(user));
     }
 
     // 获取用户信息
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public Result<User> getUser(@PathVariable Long id) {
+        return Result.success(userService.getUserById(id));
     }
 }

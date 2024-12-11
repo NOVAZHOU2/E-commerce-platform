@@ -1,25 +1,25 @@
-package com.ecommerce.dto;
+package com.ecommerce.exception;
 
 public class ErrorResponse {
 
-    private String errorCode;
+    private String code;
     private String errorMessage;
 
     // Constructors
     public ErrorResponse() {}
 
     public ErrorResponse(String errorCode, String errorMessage) {
-        this.errorCode = errorCode;
+        this.code = errorCode;
         this.errorMessage = errorMessage;
     }
 
     // Getters and Setters
-    public String getErrorCode() {
-        return errorCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getErrorMessage() {

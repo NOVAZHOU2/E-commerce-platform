@@ -41,7 +41,7 @@ public class OrderService {
 
         // 更新订单的相关字段
         existingOrder.setStatus(orderDetails.getStatus());
-        existingOrder.setTotalAmount(orderDetails.getTotalAmount());
+        existingOrder.setTotal(orderDetails.getTotal());
         // 根据需要更新其他字段
         return orderRepository.save(existingOrder);
     }
