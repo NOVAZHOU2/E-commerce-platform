@@ -5,6 +5,7 @@ import com.ecommerce.dto.UserDTO;
 import com.ecommerce.model.User;
 import com.ecommerce.result.Result;
 import com.ecommerce.service.UserService;
+import com.ecommerce.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class UserController {
 
     // 获取用户信息
     @GetMapping("/{id}")
-    public Result<User> getUser(@PathVariable Long id) {
+    public Result<UserVO> getUser(@PathVariable Long id) {
         return Result.success(userService.getUserById(id));
     }
 }

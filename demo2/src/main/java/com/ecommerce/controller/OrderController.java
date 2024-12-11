@@ -1,5 +1,6 @@
 package com.ecommerce.controller;
 
+import com.ecommerce.dto.OrderRequestDTO;
 import com.ecommerce.model.Order;
 import com.ecommerce.model.OrderItem;
 import com.ecommerce.result.Result;
@@ -24,13 +25,19 @@ public class OrderController {
     private OrderItemService orderItemService;
 
     // 创建订单
-    @PostMapping
-    public Result<Order> createOrder(@RequestBody Order order) {
-        return Result.success(orderService.createOrder(order));
+    @PostMapping("/addOrder")
+    public Result<String> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+        Order order = orderRequestDTO.getOrder();
+        List<OrderItem> orderItems = orderRequestDTO.getOrderItems();
+        orderService.createOrder(order);
+        orderItemService.createOrderItems(orderItems);
+        return Result.success();
     }
 
+
+
     // 获取订单详情
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public Result<List<OrderItem>> getOrderById(@PathVariable Long id) {
         return Result.success(orderItemService.getOrderItemsById(id));
     }
@@ -42,12 +49,12 @@ public class OrderController {
     }
 
     // 更新订单状态
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Result<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
         return Result.success(orderService.updateOrder(id, order));
     }
 
-    @PutMapping
+    @PutMapping("/orderItems/update")
     public Result<List<OrderItem>> updateOrderItems(@RequestBody List<OrderItem> ordersItem) {
         log.info("update order items{}", ordersItem);
         return Result.success(orderItemService.updateOrderItems(ordersItem));
@@ -55,7 +62,7 @@ public class OrderController {
 
     // 删除订单
     @Transactional
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Result<String> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         orderItemService.deleteByOrderId(id);

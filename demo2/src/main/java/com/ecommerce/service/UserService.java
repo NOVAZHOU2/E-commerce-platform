@@ -4,6 +4,7 @@ import com.ecommerce.dto.LoginDTO;
 import com.ecommerce.dto.UserDTO;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.UserRepository;
+import com.ecommerce.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +55,13 @@ public class UserService {
     }
 
     // 获取用户信息
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
+    public UserVO getUserById(Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found for id: " + id));
+
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        userVO.setRole(userRepository.findRoleByUserId(id));
+        return userVO;
     }
 }
