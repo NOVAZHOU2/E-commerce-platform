@@ -1,6 +1,9 @@
 package com.ecommerce.service;
 
+import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.model.Order;
+import com.ecommerce.model.OrderItem;
+import com.ecommerce.repository.OrderItemReposity;
 import com.ecommerce.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+
     // 创建订单
     public Order createOrder(Order order) {
         // 设置初始状态为 'Pending' 或其他逻辑
@@ -23,11 +27,6 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    // 获取订单详情
-    public Order getOrderById(Long orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found for ID: " + orderId));
-    }
 
     // 获取用户的所有订单
     public List<Order> getOrdersByUserId(Long userId) {
@@ -47,11 +46,12 @@ public class OrderService {
     }
 
     // 删除订单
-    public void deleteOrder(Long orderId) {
+    public Long deleteOrder(Long orderId) {
         Order existingOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found for ID: " + orderId));
 
         orderRepository.delete(existingOrder);
+        return orderId;
     }
 
     public List<Order> queryOrders(Long userId, String status, String startDate, String endDate) {
