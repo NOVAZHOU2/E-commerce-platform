@@ -1,5 +1,6 @@
 package com.ecommerce.service;
 
+import com.ecommerce.exception.ProductNotFoundException;
 import com.ecommerce.model.Product;
 import com.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +27,31 @@ public class ProductService {
 
     // 根据商品ID获取商品信息
     public Product getProductById(Long id) {
-        Optional<Product> product = productRepository.findById(id);
-        if (product.isPresent()) {
-            return product.get();
-        } else {
-            throw new IllegalArgumentException("Product not found with ID: " + id);
-        }
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with ID: " + id));
     }
+
 
     // 更新商品
     public Product updateProduct(Long id, Product productDetails) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             Product existingProduct = productOptional.get();
+
+            // 更新所有字段
             existingProduct.setName(productDetails.getName());
             existingProduct.setPrice(productDetails.getPrice());
             existingProduct.setStock(productDetails.getStock());
+            existingProduct.setCategory(productDetails.getCategory());  // 更新分类
+            existingProduct.setDescription(productDetails.getDescription());  // 更新描述
+
+            // 保存更新后的商品
             return productRepository.save(existingProduct);
         } else {
             throw new IllegalArgumentException("Product not found with ID: " + id);
         }
     }
+
 
     // 删除商品
     public void deleteProduct(Long id) {

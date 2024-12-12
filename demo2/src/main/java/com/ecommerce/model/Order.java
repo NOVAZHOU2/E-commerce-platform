@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,12 +19,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false)
-    private Integer id;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id",nullable = true)
-    private User userId;
+    private Long userId;
 
     @Column(name = "order_date")
     private Instant orderDate;
@@ -34,5 +32,12 @@ public class Order {
 
     @Column(name = "total", precision = 10, scale = 2)
     private BigDecimal total;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.orderDate == null) {
+            this.orderDate = Instant.now();  // 使用 Instant.now() 获取当前时区的时间
+        }
+    }
 
 }

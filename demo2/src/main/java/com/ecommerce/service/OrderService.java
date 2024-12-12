@@ -3,7 +3,7 @@ package com.ecommerce.service;
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.model.Order;
 import com.ecommerce.model.OrderItem;
-import com.ecommerce.repository.OrderItemReposity;
+import com.ecommerce.repository.OrderItemRepository;
 import com.ecommerce.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,7 +70,8 @@ public class OrderService {
         } catch (ParseException e) {
             e.printStackTrace(); // 这里可以根据需要做更好的错误处理
         }
-
+        System.out.println(start);
+        System.out.println(end);;
         // 调用 Repository 根据条件查询
         if (userId != null && status != null && start != null && end != null) {
             return orderRepository.findByUserIdAndStatusAndOrderDateBetween(userId, status, start, end);

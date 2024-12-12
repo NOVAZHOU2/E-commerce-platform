@@ -3,7 +3,9 @@ package com.ecommerce.service;
 import com.ecommerce.dto.LoginDTO;
 import com.ecommerce.dto.UserDTO;
 import com.ecommerce.model.User;
+import com.ecommerce.model.Role;
 import com.ecommerce.repository.UserRepository;
+import com.ecommerce.repository.RoleRepository;
 import com.ecommerce.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -21,6 +23,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;  // 注入 RoleRepository
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     // 用户注册
@@ -32,16 +37,27 @@ public class UserService {
         }
 
         log.info("register user: {}", userDTO);
+
         // 密码加密
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
+        // 查找角色
+        Optional<Role> role = roleRepository.findByRoleName(userDTO.getRoleName());  // 通过 roleName 查找角色
+        if (!role.isPresent()) {
+            throw new IllegalArgumentException("Invalid role name");
+        }
+
+        // 创建用户对象并设置角色
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
+        user.setRole(role.get());  // 将角色与用户关联
+
+        // 保存用户
         return userRepository.save(user);
     }
 
     // 用户登录
     public String login(LoginDTO user) {
-        // 查找用户
         User existingUser = userRepository.findByUsername(user.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
@@ -50,7 +66,6 @@ public class UserService {
             throw new IllegalArgumentException("Invalid credentials");
         }
 
-        // 返回登录成功的信息
         return "Login successful for user: " + user.getUsername();
     }
 
@@ -61,7 +76,7 @@ public class UserService {
 
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
-        userVO.setRole(userRepository.findRoleByUserId(id));
+        userVO.setRole(user.getRole().getRoleName());  // 获取角色名
         return userVO;
     }
 }

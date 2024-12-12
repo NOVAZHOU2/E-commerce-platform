@@ -2,8 +2,10 @@ package com.ecommerce.service;
 
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.model.OrderItem;
-import com.ecommerce.repository.OrderItemReposity;
+import com.ecommerce.repository.OrderItemRepository;
+import com.ecommerce.repository.OrderItemRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.sql.ordering.antlr.OrderByTranslation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +15,11 @@ import java.util.List;
 @Slf4j
 public class OrderItemService {
     @Autowired
-    private OrderItemReposity orderItemReposity;
+    private OrderItemRepository orderItemRepository;
 
     // 获取订单详情
     public List<OrderItem> getOrderItemsById(Long orderId) throws ResourceNotFoundException {
-        List<OrderItem> byOrderId = orderItemReposity.findByOrderId(orderId);
+        List<OrderItem> byOrderId = orderItemRepository.findByOrderId(orderId);
         if (byOrderId.isEmpty()) {
             throw new ResourceNotFoundException("Order not found");
         }
@@ -26,16 +28,16 @@ public class OrderItemService {
 
 
     public List<OrderItem> updateOrderItems(List<OrderItem> orderItems) throws ResourceNotFoundException {
-        orderItemReposity.saveAll(orderItems);
-        orderItemReposity.flush();
+        orderItemRepository.saveAll(orderItems);
+        orderItemRepository.flush();
         return orderItems;
     }
 
     public void deleteByOrderId(Long id) {
-        orderItemReposity.deleteByOrderId(id);
+        orderItemRepository.deleteByOrderId(id);
     }
 
     public void createOrderItems(List<OrderItem> orderItems) {
-        orderItemReposity.saveAll(orderItems);
+        orderItemRepository.saveAll(orderItems);
     }
 }

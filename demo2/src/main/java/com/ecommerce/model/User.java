@@ -2,7 +2,7 @@ package com.ecommerce.model;
 
 import javax.persistence.*;
 
-@Table(name = "users",schema = "ecp")
+@Table(name = "users", schema = "ecp")
 @Entity
 public class User {
 
@@ -17,6 +17,10 @@ public class User {
     private String email;
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    private Role role;  // 角色字段
 
     // Getter 和 Setter 方法
     public Long getId() {
@@ -57,5 +61,13 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -16,6 +16,7 @@ public class OrderDTO {
     public OrderDTO(Long id, Long userId, LocalDateTime orderDate, Double totalAmount, String status) {
         this.id = id;
         this.userId = userId;
+        System.out.println(orderDate);
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
         this.status = status;

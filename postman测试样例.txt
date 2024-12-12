@@ -1,0 +1,151 @@
+Postman测试用例，每个测试由 url + json组成
+
+一. UserController
+
+1.注册接口
+
+http://localhost:8080/api/users/register   POST
+
+{
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "phoneNumber": "123456789",
+  "password": "password123",
+  "roleName": "User"    // 可选 Admin，Seller，User 分别对应 role id 为1，2，3
+}
+
+2.登录接口
+
+http://localhost:8080/api/users/login  POST
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+3.由ID获取用户信息
+
+http://localhost:8080/api/users/5  GET
+
+{}
+
+
+二. ProductController
+
+1.新增商品接口
+
+http://localhost:8080/api/products/add  POST
+
+{
+  "name": "Product 1",
+  "price": 100.0,
+  "stock": 50,
+  "category": "Electronics",
+  "description": "A new electronic product"
+}
+
+2.获取所有商品信息接口
+
+http://localhost:8080/api/products/products  GET
+
+{}
+
+3.按照product_id获取商品信息  GET
+
+http://localhost:8080/api/products/1
+
+{}
+
+4.按照product_id更改商品信息
+
+http://localhost:8080/api/products/1  PUT
+
+{
+  "name": "Updated Product 1",
+  "price": 120.0,
+  "stock": 60,
+  "category": "Electronics",
+  "description": "Updated description of the electronic product"
+}
+
+5.按照product_id删除商品信息
+
+http://localhost:8080/api/products/1  DELETE
+
+{}
+
+三. OrderController
+
+http://localhost:8080/api/orders/addOrder  POST
+
+1.新增订单接口
+
+{
+  "order": {
+    "userId": 2,
+    "totalAmount": 500.0
+  },
+  "orderItems": [
+    {
+      "productId": 1,
+      "quantity": 2,
+      "price": 100.0
+    },
+    {
+      "productId": 2,
+      "quantity": 3,
+      "price": 50.0
+    }
+  ]
+}
+
+2.由订单id获取订单信息
+
+http://localhost:8080/api/orders/search/1  GET
+
+3.由用户id获取订单信息
+
+http://localhost:8080/api/orders/user/1  GET
+
+4.由订单id修改订单信息
+
+http://localhost:8080/api/orders/update/1  PUT
+
+{
+  "userId": 1,
+  "totalAmount": 500.0,
+  "status": "Shipped"
+}
+
+5.批量更改订单项接口
+
+http://localhost:8080/api/orders/orderItems/update  PUT
+
+[
+  {
+    "orderItemId": 1,
+    "orderId": 1,
+    "productId": 1,
+    "quantity": 3,
+    "price": 100.0
+  },
+  {
+    "orderItemId": 2,
+    "orderId": 1,
+    "productId": 2,
+    "quantity": 2,
+    "price": 50.0
+  }
+]
+
+6.删除订单项接口  
+
+http://localhost:8080/api/orders/delete/1  DELETE
+
+四.OrderQueryController
+
+1.根据userId/statue/datetime查找订单
+
+http://localhost:8080/api/order-query/query   POST
+
+{自定义查找方式，上述均可}

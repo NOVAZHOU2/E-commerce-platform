@@ -10,14 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface OrderItemReposity extends JpaRepository<OrderItem, Long> {
+public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
-    //@Query("select o from OrderItem o where o.orderId =: orderId")
+    // 使用原生 SQL 查询，根据 orderId 查找所有订单项
+    @Query(value = "SELECT * FROM order_items WHERE order_id = ?1", nativeQuery = true)
     List<OrderItem> findByOrderId(Long orderId);
 
+    // 使用原生 SQL 删除指定 orderId 的所有订单项
     @Modifying
     @Transactional
-    @Query("delete from OrderItem o where o.orderId =: orderId")
+    @Query(value = "DELETE FROM order_items WHERE order_id = ?1", nativeQuery = true)
     void deleteByOrderId(Long orderId);
-
 }
