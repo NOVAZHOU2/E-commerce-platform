@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>电商登录界面</title>
+</head>
+<body>
+    <div class="login-container">
+        <h2>登录</h2>
+        <form id="loginForm">
+            <label for="username">用户名:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">密码:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">登录</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 阻止表单默认提交行为
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // 模拟发送请求到后端进行身份验证
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    switch (data.role) {
+                        case 'user':
+                            window.location.href = '/user_dashboard.html'; // 用户跳转页面
+                            break;
+                        case 'merchant':
+                            window.location.href = '/merchant_dashboard.html'; // 商家跳转页面
+                            break;
+                        case 'admin':
+                            window.location.href = '/admin_dashboard.html'; // 管理员跳转页面
+                            break;
+                        default:
+                            alert('未知身份');
+                    }
+                } else {
+                    alert('登录失败，请检查用户名和密码');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('登录过程中发生错误');
+            });
+        });
+    </script>
+</body>
+</html>
