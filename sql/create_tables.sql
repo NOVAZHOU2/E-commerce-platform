@@ -34,9 +34,6 @@ CREATE TABLE products (
                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 创建索引
-CREATE INDEX idx_product_name ON products(product_name);
-
 -- 创建分类信息表
 CREATE TABLE categories (
                             category_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -84,9 +81,3 @@ CREATE TABLE payments (
                           FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
 );
 
--- 创建库存信息表
-CREATE TABLE inventory (
-                           product_id INT PRIMARY KEY,
-                           stock INT NOT NULL,
-                           FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
-);
