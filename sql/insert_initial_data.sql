@@ -45,9 +45,3 @@ INSERT INTO payments (order_id, amount, payment_method, payment_status) VALUES
                                                                             (1, 900, 'Credit Card', 'Paid'),  -- 订单1，支付 900
                                                                             (2, 300, 'Paypal', 'Paid');      -- 订单2，支付 300
 
--- 插入库存信息数据
-INSERT INTO inventory (product_id, stock) VALUES
-                                              (1, 50),  -- 商品 "电脑" 库存 50
-                                              (2, 100),  -- 商品 "智能手机" 库存 100
-                                              (3, 150),  -- 商品 "手机壳" 库存 150
-                                              (4, 30);  -- 商品 "平板电脑" 库存 30

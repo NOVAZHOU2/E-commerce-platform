@@ -1,5 +1,16 @@
 create database ecp;
 use ecp;
+
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS product_categories;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS payments;
+DROP TABLE IF EXISTS shopping_cart;
 -- 创建用户信息表
 CREATE TABLE users (
                        user_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -33,10 +44,6 @@ CREATE TABLE products (
                           description TEXT,
                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- 创建索引
-CREATE INDEX idx_product_name ON products(product_name);
-
 -- 创建分类信息表
 CREATE TABLE categories (
                             category_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -83,10 +90,13 @@ CREATE TABLE payments (
                           payment_status VARCHAR(50),
                           FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
 );
-
--- 创建库存信息表
-CREATE TABLE inventory (
-                           product_id INT PRIMARY KEY,
-                           stock INT NOT NULL,
-                           FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+-- 创建购物车表
+CREATE TABLE shopping_cart (
+                               cart_id INT PRIMARY KEY AUTO_INCREMENT,
+                               user_id INT,
+                               product_id INT,
+                               quantity INT NOT NULL DEFAULT 1,
+                               added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                               FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+                               FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
