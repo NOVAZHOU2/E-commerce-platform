@@ -1,10 +1,12 @@
 package com.ecommerce.dto;
 
 public class OrderQueryRequestDTO {
+
     private Long userId;
     private String status;
     private String startDate;
     private String endDate;
+    private Long merchantId;  // 新增字段：商家ID
 
     // Getters 和 Setters
     public Long getUserId() {
@@ -37,5 +39,13 @@ public class OrderQueryRequestDTO {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public Long getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
     }
 }

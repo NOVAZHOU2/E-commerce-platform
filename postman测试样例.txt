@@ -41,7 +41,8 @@ http://localhost:8080/api/products/add  POST
   "price": 100.0,
   "stock": 50,
   "category": "Electronics",
-  "description": "A new electronic product"
+  "description": "A new electronic product",
+  "merchantId":2
 }
 
 2.获取所有商品信息接口
@@ -56,7 +57,7 @@ http://localhost:8080/api/products/1
 
 {}
 
-4.按照product_id更改商品信息
+4.按照product_id更改商品信息(给出部分需修改的字段即可）
 
 http://localhost:8080/api/products/1  PUT
 
@@ -74,6 +75,13 @@ http://localhost:8080/api/products/1  DELETE
 
 {}
 
+6.根据商户id来进行查询商品
+
+http://localhost:8080/api/products/merchant/1 GET
+
+{}
+
+
 三. OrderController
 
 http://localhost:8080/api/orders/addOrder  POST
@@ -83,18 +91,23 @@ http://localhost:8080/api/orders/addOrder  POST
 {
   "order": {
     "userId": 2,
-    "totalAmount": 500.0
+    "total": 500.0
   },
   "orderItems": [
     {
       "productId": 1,
       "quantity": 2,
-      "price": 100.0
+      "price": 100.0,
+	"status":"prepare",
+    "merchantId":2
     },
     {
       "productId": 2,
       "quantity": 3,
-      "price": 50.0
+      "price": 50.0,
+	"status":"prepare",
+    "merchantId":2
+
     }
   ]
 }
@@ -107,40 +120,29 @@ http://localhost:8080/api/orders/search/1  GET
 
 http://localhost:8080/api/orders/user/1  GET
 
-4.由订单id修改订单信息
+4.由订单id修改订单信息(指定部分需要修改的字段即可）
 
-http://localhost:8080/api/orders/update/1  PUT
+http://localhost:8080/api/orders/1  PUT
 
 {
   "userId": 1,
-  "totalAmount": 500.0,
-  "status": "Shipped"
+  "total": 500.0
 }
 
-5.批量更改订单项接口
-
-http://localhost:8080/api/orders/orderItems/update  PUT
-
-[
-  {
-    "orderItemId": 1,
-    "orderId": 1,
-    "productId": 1,
-    "quantity": 3,
-    "price": 100.0
-  },
-  {
-    "orderItemId": 2,
-    "orderId": 1,
-    "productId": 2,
-    "quantity": 2,
-    "price": 50.0
-  }
-]
-
-6.删除订单项接口  
+5.删除订单接口  
 
 http://localhost:8080/api/orders/delete/1  DELETE
+
+6.更改订单项接口（给出部分需要修改的字段即可）
+
+http://localhost:8080/api/orders/orderItems/update/6  PUT
+
+{
+    "productId": 2001,
+    "quantity": 3,
+    "price": 399.99
+}
+
 
 四.OrderQueryController
 

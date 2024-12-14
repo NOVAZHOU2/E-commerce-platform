@@ -53,8 +53,6 @@ public class OrderController {
     }
 
 
-
-
     // 获取订单详情
     @GetMapping("/search/{id}")
     public Result<List<OrderItem>> getOrderById(@PathVariable Long id) {
@@ -67,16 +65,18 @@ public class OrderController {
         return Result.success(orderService.getOrdersByUserId(userId));
     }
 
-    // 更新订单状态
-    @PutMapping("/update/{id}")
-    public Result<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
-        return Result.success(orderService.updateOrder(id, order));
+    @PutMapping("/{orderId}")
+    public Result<Order> updateOrder(@PathVariable Long orderId, @RequestBody Order orderDetails) {
+        Order updatedOrder = orderService.updateOrder(orderId, orderDetails);
+        return Result.success(updatedOrder);
     }
 
-    @PutMapping("/orderItems/update")
-    public Result<List<OrderItem>> updateOrderItems(@RequestBody List<OrderItem> ordersItem) {
-        log.info("update order items{}", ordersItem);
-        return Result.success(orderItemService.updateOrderItems(ordersItem));
+    @PutMapping("/orderItems/update/{orderItemId}")
+    public Result<OrderItem> updateOrderItem(@PathVariable Long orderItemId, @RequestBody OrderItem orderItem) {
+        log.info("Updating order item with id: {}", orderItemId);
+
+        // 调用 Service 层的更新方法
+        return Result.success(orderItemService.updateOrderItem(orderItemId, orderItem));
     }
 
     // 删除订单

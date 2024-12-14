@@ -9,18 +9,20 @@ public class ProductDTO {
     private String description;
     private Double price;
     private Integer stock;
-    private String category;  // 新增 category 字段
+    private String category;
+    private Long merchantId;  // 新增 merchantId 字段
 
     // 构造方法
     public ProductDTO() {}
 
-    public ProductDTO(Long id, String name, String description, Double price, Integer stock, String category) {
+    public ProductDTO(Long id, String name, String description, Double price, Integer stock, String category, Long merchantId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
-        this.category = category;  // 初始化 category
+        this.category = category;
+        this.merchantId = merchantId;  // 初始化 merchantId
     }
 
     // Getter 和 Setter 方法
@@ -64,15 +66,22 @@ public class ProductDTO {
         this.stock = stock;
     }
 
-    public String getCategory() {  // 新增 getter 方法
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {  // 新增 setter 方法
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    // toString 方法
+    public Long getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
+    }
+
     @Override
     public String toString() {
         return "ProductDTO{" +
@@ -81,11 +90,11 @@ public class ProductDTO {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
-                ", category='" + category + '\'' +  // 添加 category
+                ", category='" + category + '\'' +
+                ", merchantId=" + merchantId +
                 '}';
     }
 
-    // equals 和 hashCode 方法
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

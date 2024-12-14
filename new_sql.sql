@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80035
 File Encoding         : 65001
 
-Date: 2024-12-12 19:59:49
+Date: 2024-12-14 22:41:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,11 +30,10 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `order_id` bigint NOT NULL AUTO_INCREMENT,
   `order_date` datetime(6) DEFAULT NULL,
-  `status` varchar(50) DEFAULT NULL,
   `total` decimal(10,2) DEFAULT NULL,
   `user_id` bigint DEFAULT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for order_items
@@ -46,8 +45,12 @@ CREATE TABLE `order_items` (
   `price` double NOT NULL,
   `product_id` int NOT NULL,
   `quantity` int NOT NULL,
-  PRIMARY KEY (`order_item_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `merchant_id` bigint NOT NULL,
+  `status` varchar(50) DEFAULT 'PENDING',
+  PRIMARY KEY (`order_item_id`),
+  KEY `FKbioxgbv59vetrxe0ejfubep1w` (`order_id`),
+  CONSTRAINT `FKbioxgbv59vetrxe0ejfubep1w` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for products
@@ -60,8 +63,9 @@ CREATE TABLE `products` (
   `stock` int DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
   `description` text,
+  `merchant_id` bigint NOT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for roles
@@ -87,17 +91,20 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   KEY `FKp56c1712k691lhsyewcssf40f` (`role_id`),
   CONSTRAINT `FKp56c1712k691lhsyewcssf40f` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for user_roles
 -- ----------------------------
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
+  `user_id` bigint NOT NULL,
   `role_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `FK_user_roles_role_id` (`role_id`),
+  CONSTRAINT `FK_user_roles_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_user_roles_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 DROP TRIGGER IF EXISTS `after_user_insert`;
 DELIMITER ;;
 CREATE TRIGGER `after_user_insert` AFTER INSERT ON `users` FOR EACH ROW BEGIN

@@ -22,4 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // 根据库存量查询
     @Query(value = "SELECT * FROM products WHERE stock > ?1", nativeQuery = true)
     List<Product> findByStockGreaterThan(int stock);
+
+    @Query(value = "SELECT * FROM products WHERE merchant_id = ?1", nativeQuery = true)
+    List<Product> findByMerchantId(Long merchantId);
 }

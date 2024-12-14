@@ -31,6 +31,10 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("Product not found with ID: " + id));
     }
 
+    // 根据商户ID获取商品
+    public List<Product> getProductsByMerchantId(Long merchantId) {
+        return productRepository.findByMerchantId(merchantId);
+    }
 
     // 更新商品
     public Product updateProduct(Long id, Product productDetails) {
@@ -38,14 +42,27 @@ public class ProductService {
         if (productOptional.isPresent()) {
             Product existingProduct = productOptional.get();
 
-            // 更新所有字段
-            existingProduct.setName(productDetails.getName());
-            existingProduct.setPrice(productDetails.getPrice());
-            existingProduct.setStock(productDetails.getStock());
-            existingProduct.setCategory(productDetails.getCategory());  // 更新分类
-            existingProduct.setDescription(productDetails.getDescription());  // 更新描述
+            // 仅更新提供的字段
+            if (productDetails.getName() != null) {
+                existingProduct.setName(productDetails.getName());
+            }
+            if (productDetails.getPrice() != null) {
+                existingProduct.setPrice(productDetails.getPrice());
+            }
+            if (productDetails.getStock() != null) {
+                existingProduct.setStock(productDetails.getStock());
+            }
+            if (productDetails.getCategory() != null) {
+                existingProduct.setCategory(productDetails.getCategory());
+            }
+            if (productDetails.getDescription() != null) {
+                existingProduct.setDescription(productDetails.getDescription());
+            }
+            if (productDetails.getMerchantId() != null) {
+                existingProduct.setMerchantId(productDetails.getMerchantId());
+            }
 
-            // 保存更新后的商品
+            // 保存并返回更新后的商品
             return productRepository.save(existingProduct);
         } else {
             throw new IllegalArgumentException("Product not found with ID: " + id);

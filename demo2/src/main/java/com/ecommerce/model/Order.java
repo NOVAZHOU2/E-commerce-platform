@@ -26,10 +26,6 @@ public class Order {
     @Column(name = "order_date")
     private Instant orderDate;
 
-    @Size(max = 50)
-    @Column(name = "status", length = 50)
-    private String status;
-
     @Column(name = "total", precision = 10, scale = 2)
     private BigDecimal total;
 

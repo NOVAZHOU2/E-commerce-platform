@@ -12,11 +12,15 @@ import java.util.List;
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
-    // 使用原生 SQL 查询，根据 orderId 查找所有订单项
+    // 根据 orderId 查找所有订单项
     @Query(value = "SELECT * FROM order_items WHERE order_id = ?1", nativeQuery = true)
     List<OrderItem> findByOrderId(Long orderId);
 
-    // 使用原生 SQL 删除指定 orderId 的所有订单项
+    // 根据 merchantId 查找所有订单项
+    @Query(value = "SELECT * FROM order_items WHERE merchant_id = ?1", nativeQuery = true)
+    List<OrderItem> findByMerchantId(Long merchantId);
+
+    // 删除指定 orderId 的所有订单项
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM order_items WHERE order_id = ?1", nativeQuery = true)

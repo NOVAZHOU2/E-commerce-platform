@@ -2,8 +2,11 @@ package com.ecommerce.controller;
 
 import com.ecommerce.dto.OrderQueryRequestDTO;
 import com.ecommerce.model.Order;
+import com.ecommerce.model.OrderItem;
+import com.ecommerce.model.Product;
 import com.ecommerce.result.Result;
 import com.ecommerce.service.OrderService;
+import com.ecommerce.service.OrderItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +27,19 @@ public class OrderQueryController {
                 requestDTO.getUserId(), requestDTO.getStatus(), requestDTO.getStartDate(), requestDTO.getEndDate());
 
         // 调用 service 层处理查询逻辑
-        return Result.success(orderService.queryOrders(requestDTO.getUserId(), requestDTO.getStatus(),
+        return Result.success(orderService.queryOrders(requestDTO.getUserId(),
                 requestDTO.getStartDate(), requestDTO.getEndDate()));
+    }
+
+    // 根据商家ID查询订单项
+    @GetMapping("/merchant/{merchantId}")
+    public Result<List<Order>> queryOrdersByMerchantId(@PathVariable Long merchantId) {
+        log.info("Received query for merchantId={}", merchantId);
+
+        // 调用 OrderService 层根据 merchantId 获取订单
+        List<Order> orders = orderService.queryOrdersByMerchantId(merchantId);
+
+        return Result.success(orders);
     }
 }
 
