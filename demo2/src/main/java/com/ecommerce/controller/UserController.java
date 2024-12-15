@@ -28,7 +28,7 @@ public class UserController {
 
     // 用户登录
     @PostMapping("/login")
-    public Result<String> login(@RequestBody LoginDTO user) {
+    public Result<UserVO> login(@RequestBody LoginDTO user) {
         log.info("user login{}", user);
         return Result.success(userService.login(user));
     }
@@ -38,4 +38,12 @@ public class UserController {
     public Result<UserVO> getUser(@PathVariable Long id) {
         return Result.success(userService.getUserById(id));
     }
+
+    @PostMapping("/update")
+    public Result<String> update(@RequestBody User user) {
+        log.info("user update{}", user);
+        userService.update(user);
+        return Result.success();
+    }
+
 }

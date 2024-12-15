@@ -3,6 +3,7 @@ package com.ecommerce.service;
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.model.OrderItem;
 import com.ecommerce.repository.OrderItemRepository;
+import com.ecommerce.utils.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,11 @@ public class OrderItemService {
     }
 
     // 创建订单项
-    public void createOrderItems(List<OrderItem> orderItems) {
+    public void createOrderItems(List<OrderItem> orderItems,Long id) {
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setOrderId(id);
+            orderItem.setStatus(Status.prepare);
+        }
         orderItemRepository.saveAll(orderItems);
     }
 
@@ -89,4 +94,7 @@ public class OrderItemService {
     }
 
 
+    public List<OrderItem> queryOrdersByMerchantId(Long merchantId) {
+        return orderItemRepository.findByMerchantId(merchantId);
+    }
 }

@@ -19,7 +19,8 @@ public class OrderQueryController {
 
     @Autowired
     private OrderService orderService;
-
+    @Autowired
+    private OrderItemService orderItemService;
     // 查询订单，接收 JSON 请求体
     @PostMapping("/query")  // 使用 @PostMapping
     public Result<List<Order>> queryOrders(@RequestBody OrderQueryRequestDTO requestDTO) {
@@ -33,12 +34,12 @@ public class OrderQueryController {
 
     // 根据商家ID查询订单项
     @GetMapping("/merchant/{merchantId}")
-    public Result<List<Order>> queryOrdersByMerchantId(@PathVariable Long merchantId) {
+    public Result<List<OrderItem>> queryOrdersByMerchantId(@PathVariable Long merchantId) {
         log.info("Received query for merchantId={}", merchantId);
 
-        // 调用 OrderService 层根据 merchantId 获取订单
-        List<Order> orders = orderService.queryOrdersByMerchantId(merchantId);
-
+        // 调用 OrderItemService 层根据 merchantId 获取订单
+        List<OrderItem> orders = orderItemService.getOrderItemsByMerchantId(merchantId);
+        log.info("orderItems = {}",orders);
         return Result.success(orders);
     }
 }

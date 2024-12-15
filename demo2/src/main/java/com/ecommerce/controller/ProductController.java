@@ -23,12 +23,14 @@ public class ProductController {
     @PostMapping("/add")
     public Result<Product> addProduct(@RequestBody Product product) {
         Product savedProduct = productService.addProduct(product);
+        log.info("saved product: {}", savedProduct);
         return Result.success(savedProduct);
     }
 
     // 获取所有商品
     @GetMapping("/products")
     public Result<List<Product>> getAllProducts() {
+        log.info("getAllProducts");
         return Result.success(productService.getAllProducts());
     }
 
@@ -41,18 +43,21 @@ public class ProductController {
     // 根据商户ID获取商品
     @GetMapping("/merchant/{merchantId}")
     public Result<List<Product>> getProductsByMerchantId(@PathVariable Long merchantId) {
+        log.info("根据商户ID获取商品 : {}", merchantId);
         return Result.success(productService.getProductsByMerchantId(merchantId));
     }
 
     // 更新商品
     @PutMapping("/{id}")
     public Result<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        log.info("updateProduct : {}", product);
         return Result.success(productService.updateProduct(id, product));
     }
 
     // 删除商品
     @DeleteMapping("/{id}")
     public Result<String> deleteProduct(@PathVariable Long id) {
+        log.info("deleteProduct : {}", id);
         productService.deleteProduct(id);
         return Result.success();
     }

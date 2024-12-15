@@ -26,29 +26,11 @@ public class OrderController {
     private OrderItemService orderItemService;
 
     // 创建订单
-    @PostMapping("/addOrder")
-    public Result<String> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
-        Order order = orderRequestDTO.getOrder();
-        List<OrderItem> orderItems = orderRequestDTO.getOrderItems();
-        Order savedOrder = orderService.createOrder(order);
-        // 获取 userId
-        Long userId = order.getUserId();
-
-        // 根据 userId 获取对应的 User 对象
-       // User user = userService.getUserById(userId);
-
-        // 设置 User 到 Order 对象中
-        order.setUserId(userId);
-
-        // 确保 orderItems 中的每个 OrderItem 都是新的对象，且没有重复 ID
-        for (OrderItem orderItem : orderItems) {
-            orderItem.setOrderId(order.getId());  // 关联 Order 到 OrderItem
-            orderItem.setOrderItemId(null);  // 清除 OrderItem 的 ID，以确保它是新对象
-        }
-
-        // 创建订单项
-        orderItemService.createOrderItems(orderItems);
-
+    @PostMapping("/addOrder/{id}")
+    public Result<String> createOrder(@RequestBody List<OrderItem> orderItemList,@PathVariable Long id) {
+        log.info("orderList {}", orderItemList);
+        Long orderId = orderService.createOrder(orderItemList,id);
+        orderItemService.createOrderItems(orderItemList,orderId);
         return Result.success();
     }
 

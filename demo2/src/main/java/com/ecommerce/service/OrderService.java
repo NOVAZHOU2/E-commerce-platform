@@ -8,8 +8,12 @@ import com.ecommerce.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ecommerce.service.OrderItemService;
+
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +33,18 @@ public class OrderService {
     public Order createOrder(Order order) {
         // 设置初始状态为 'Pending' 或其他逻辑
         return orderRepository.save(order);
+    }
+
+    public Long createOrder(List<OrderItem> orderItems,Long id) {
+        Order order = new Order();
+        double total = 0;
+        for (OrderItem orderItem : orderItems) {
+            total += orderItem.getPrice() * orderItem.getQuantity();
+        }
+        order.setTotal(BigDecimal.valueOf(total));
+        order.setUserId(id);
+        order.setOrderDate(Instant.from(LocalDateTime.now()));
+        return orderRepository.save(order).getId();
     }
 
     // 获取用户的所有订单
