@@ -1,3 +1,8 @@
+const apiUrl = "http://localhost:8080/";
+globalThis.role = "customer";
+globalThis.apiUrl = apiUrl;
+globalThis.userId = 3;
+
 document.getElementById('registerButton').addEventListener('click', function() {
     document.querySelector('.login-container').style.display = 'none';
     document.querySelector('.register-container').style.display = 'block';
@@ -11,21 +16,26 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     const roleName = document.getElementById('regRoleName').value;
     
     // 模拟发送请求到后端进行注册
-    fetch('/api/register', {
+    fetch( 'http://localhost:8080/api/users/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, email, phoneNumber, password, roleName })
+        body: JSON.stringify({
+            "username" : username,
+            "email" : email,
+            "phoneNumber" : phoneNumber,
+            "password" : password,
+            "roleName" : roleName })
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
+        if (data.code === 1) {
             alert('注册成功');
             document.querySelector('.register-container').style.display = 'none';
             document.querySelector('.login-container').style.display = 'block';
         } else {
-            alert('注册失败，请检查输入的信息');
+            alert(data.errorMessage)
         }
     })
     .catch(error => {
@@ -39,7 +49,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     const password = document.getElementById('password').value;
     
     // 模拟发送请求到后端进行身份验证
-    fetch('/api/login', {
+    fetch(`${apiUrl}api/users/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -48,10 +58,13 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     })
     .then(response => response.json())
     .then(data => {
-        localStorage.setItem('token', data.token);
-        if (data.success) {
-            switch (data.role) {
-                case 'user':
+        // localStorage.setItem('token', data.token);
+        console.log(data);
+        if (data.code === 1) {
+            globalThis.userId = data.data.id;
+            globalThis.role = data.data.role;
+            switch (data.data.role) {
+                case 'customer':
                     window.location.href = '/user_dashboard.html'; // 用户跳转页面
                     break;
                 case 'merchant':

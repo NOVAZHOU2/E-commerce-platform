@@ -1,19 +1,40 @@
 
 let profile=document.getElementById('profile');
+const usernameInput = document.querySelector('input[name="username"]');
+const emailInput = document.querySelector('input[name="email"]');
+const phoneInput = document.querySelector('input[name="phoneNumber"]');
+const passwordInput = document.querySelector('input[name="password"]');
+
+
 profile.addEventListener('submit', function(event) { // 监听表单提交事件
- 
+
     event.preventDefault(); // 阻止默认提交行为
-    const formData = new FormData(this); // 获取表单数据
-    fetch('/api/upload', { // 使用fetch API进行异步请求
+    const username = usernameInput.value;
+    const email = emailInput.value;
+    const phoneNumber = phoneInput.value;
+    const password = passwordInput.value;
+
+    console.log(username, email, phoneNumber, password, globalThis.role);
+    fetch(`http://localhost:8080/api/users/update`, { // 使用fetch API进行异步请求
         method: 'POST',
-        body: formData, // 将表单数据作为请求体发送
+        body: JSON.stringify({
+            "id" : 3,
+            "username" : username,
+            "email" : email,
+            "password" : password,
+            "phoneNumber" : phoneNumber,
+        }), // 将表单数据作为请求体发送
         headers: {
-            'Accept': 'application/json'
+            'Content-Type': 'application/json'
         }
     })
     .then(response => response.json()) // 解析JSON响应
     .then(data => { // 处理成功响应
-        console.log('Success:', data);
+        if (data.code === 1){
+            console.log("success update");
+        }else{
+            console.log(data.errorMessage)
+        }
     })
     .catch((error) => { // 处理错误响应
         console.error('Error:', error);
@@ -93,9 +114,7 @@ document.getElementById('logoutBtn').addEventListener('click', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // 模拟从后端获取的数据
     const products = [
-        { name: '衣服1', price: '¥99.00', imageUrl: '',quantity:11},
-        { name: '衣服2', price: '¥199.00', imageUrl: 'https://via.placeholder.com/150',quantity:22 },
-        { name: '衣服3', price: '¥299.00', imageUrl: 'https://via.placeholder.com/150',quantity:33 }
+        { name: '衣服1', price: '¥99.00', imageUrl: '',quantity:11, merchantId:1,productId:1},
         // 可以添加更多商品数据
     ];
     const Productorders=[
@@ -207,18 +226,32 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedProducts = cart.filter((item, index) => {
             return document.querySelector(`input[type="checkbox"][data-index="${index}"]`).checked;
         });
-        
-        fetch('/api/register', {
+        jsonBody = []
+        for (let i = 0; i < selectedProducts.length; i++) {
+            var s = JSON.stringify(
+                {
+                    name: selectedProducts[i].name,
+                    price: selectedProducts[i].price,
+                    quantity: selectedProducts[i].quantity,
+                    productId: selectedProducts[i].productId,
+                    merchantId: selectedProducts[i].merchantId,
+                }
+            );
+            jsonBody.push(s);
+        }
+
+        console.log(selectedProducts);
+        // 这里的3实际运行需要改成userId
+        fetch('http:localhost:8080/api/orders/addOrder/' + 3, {
             method: 'POST',
-            body: JSON.selectedProducts
+            body: jsonBody,
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data.code === 1) {
                 // displayOrderHistory(selectedProducts); // 显示订单历史记录
                 console.log('Selected Products:', selectedProducts); // 这里可以处理提交订单的逻辑，比如发送请求到服务器等
                 alert('订单提交成功');
-                
             } else {
                 alert('订单提交失败，请重新提交');
             }
