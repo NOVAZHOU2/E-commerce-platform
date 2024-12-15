@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80035
 File Encoding         : 65001
 
-Date: 2024-12-14 22:41:53
+Date: 2024-12-15 10:54:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -49,6 +49,8 @@ CREATE TABLE `order_items` (
   `status` varchar(50) DEFAULT 'PENDING',
   PRIMARY KEY (`order_item_id`),
   KEY `FKbioxgbv59vetrxe0ejfubep1w` (`order_id`),
+  KEY `fk_orderitem_merchantId` (`merchant_id`),
+  CONSTRAINT `fk_orderitem_merchantId` FOREIGN KEY (`merchant_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `FKbioxgbv59vetrxe0ejfubep1w` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -64,7 +66,9 @@ CREATE TABLE `products` (
   `category` varchar(255) DEFAULT NULL,
   `description` text,
   `merchant_id` bigint NOT NULL,
-  PRIMARY KEY (`product_id`)
+  PRIMARY KEY (`product_id`),
+  KEY `fk_product_merchantId` (`merchant_id`),
+  CONSTRAINT `fk_product_merchantId` FOREIGN KEY (`merchant_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
