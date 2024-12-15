@@ -1,40 +1,167 @@
 
+let merchantId = 3;
 let profile=document.getElementById('profile');
 profile.addEventListener('submit', function(event) { // 监听表单提交事件
     
     event.preventDefault(); // 阻止默认提交行为
-    const formData = new FormData(this); // 获取表单数据
-    fetch('/api/upload', { // 使用fetch API进行异步请求
+    const username = usernameInput.value;
+    const email = emailInput.value;
+    const phoneNumber = phoneInput.value;
+    const password = passwordInput.value;
+
+    console.log(username, email, phoneNumber, password, globalThis.role);
+    fetch(`http://localhost:8080/api/users/update`, { // 使用fetch API进行异步请求
         method: 'POST',
-        body: formData, // 将表单数据作为请求体发送
+        body: JSON.stringify({
+            "id" : 3,
+            "username" : username,
+            "email" : email,
+            "password" : password,
+            "phoneNumber" : phoneNumber,
+        }), // 将表单数据作为请求体发送
         headers: {
-            'Accept': 'application/json'
+            'Content-Type': 'application/json'
         }
     })
-    .then(response => response.json()) // 解析JSON响应
-    .then(data => { // 处理成功响应
-        console.log('Success:', data);
-    })
-    .catch((error) => { // 处理错误响应
-        console.error('Error:', error);
-    });
+        .then(response => response.json()) // 解析JSON响应
+        .then(data => { // 处理成功响应
+            if (data.code === 1){
+                console.log("success update");
+            }else{
+                console.log(data.errorMessage)
+            }
+        })
+        .catch((error) => { // 处理错误响应
+            console.error('Error:', error);
+        });
 });
+let checkaccount=document.querySelector('.checkaccount');
+let checklogin=document.querySelector('.checklogin');
+let checkhome=document.querySelector('.checkhome');
+let checkcart=document.querySelector('.checkcart');
+let checkorders=document.querySelector('.checkorders');
+let checkcontact=document.querySelector('.checkcontact');
+checkaccount.addEventListener('click',function(){
+    let sections=document.querySelectorAll('.section');
+    sections.forEach((section,index) => {
+        section.style.display='none';
+    })
+    Foraccount();
+    })
+checklogin.addEventListener('click',function(){
+    let sections=document.querySelectorAll('.section');
+    sections.forEach((section,index) => {
+        section.style.display='none';
+    })
+    Forlogin();
+    })
+checkhome.addEventListener('click',function(){
+    let sections=document.querySelectorAll('.section');
+    sections.forEach((section,index) => {
+        section.style.display='none';
+    })
+    Forhome();
+    })
+checkcart.addEventListener('click',function(){
+    let sections=document.querySelectorAll('.section');
+    sections.forEach((section,index) => {
+        section.style.display='none';
+    })
+    Forcart();
+    })
+checkorders.addEventListener('click',function(){
+    let sections=document.querySelectorAll('.section');
+    sections.forEach((section,index) => {
+        section.style.display='none';
+    })
+    Fororders();
+    })
+checkcontact.addEventListener('click',function(){
+    let sections=document.querySelectorAll('.section');
+    sections.forEach((section,index) => {
+        section.style.display='none';
+    })
+    Forcontact();
+    })
+function Foraccount(){
+    document.getElementById('account').style.display='block';
+    // 账户提交表单POST：用户名，邮箱，手机号，密码username，email，phoneNumber，password
+}
+function Forlogin(){
+    document.getElementById('login').style.display='block';
 
+}
+function Forhome(){
+    document.getElementById('home').style.display='block';
+
+    fetch("http://localhost:8080/api/products/merchant/"+merchantId,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.code === 1){
+            console.log(data);
+            products = []
+            for(let i=0;i<data.data.length;i++){
+                data.data[i].quantity = data.data[i].stock;
+                products.push(data.data[i]);
+            }
+            console.log(products);
+        }else{
+            alert(data.errorMessage);
+        }
+    }).catch(
+        error => {
+            alert(error.message);
+        }
+    );
+    // 商品列表GET:product.imageUrl，product.name，product.quantity，product，price
+}
+function Forcart(){
+    document.getElementById('cart').style.display='block';
+    fetch;
+    // 添加商品按钮：POST，名称，价格,URL，数量，name,price,url,quantity
+    // 查询商品按钮：GET，名称，价格，数量，name，price，quantity
+    // 删除商品按钮：POST，之后调用查询一次GET
+}
+function Fororders(){
+    document.getElementById('orders').style.display='block';
+    fetch('http://localhost:8080/api/order-query/merchant/'+merchantId,{
+        method: 'GET',
+    }).then(response => response.json())
+        .then(data => {
+            if(data.code === 1){
+                Productorders = []
+                for (let index in data.data){
+                    Productorders.push(data.data[index]);
+                }
+                console.log(Productorders);
+            }else{
+                console.log("error");
+            }
+        }).catch(error => {
+        console.log("error");
+    })
+    // 商家更改订单POST：返回成功更改订单状态
+}
+function Forcontact(){
+    document.getElementById('contact').style.display='block';
+}
 // 绑定退出登录按钮点击事件
 document.getElementById('logoutBtn').addEventListener('click', function() {
-    window.location.href = '/index.html'; // 跳转到登出界面
+    window.location.href = '/Users/asus/Desktop/online-shopping%EF%BC%88%E5%89%8D%E7%AB%AF%EF%BC%89/index.html'; // 跳转到登出界面
 });
 
 document.addEventListener('DOMContentLoaded', function() {
     // 模拟从后端获取的数据
-    const products = [
-        { name: '衣服1', price: '¥99.00', imageUrl: "",quantity:11},
-        { name: '衣服2', price: '¥199.00', imageUrl: 'https://via.placeholder.com/150',quantity:22 },
-        { name: '衣服3', price: '¥299.00', imageUrl: 'https://via.placeholder.com/150',quantity:33 }
-        // 可以添加更多商品数据
+    products = [
+       // 可以添加更多商品数据
     ];
-    const Productorders=[
-        {orderID:1,name:'衣服1',price:'99.00',quantity:1,situation:'prepare'}
+    Productorders=[
+        {orderID:1,name:'衣服1',price:'99.00',quantity:1,situation:'prepare',orderItem:1}
     ];
     const productList = document.getElementById('productList');
     const cartBody = document.getElementById('cartBody');
@@ -56,20 +183,36 @@ document.addEventListener('DOMContentLoaded', function() {
         const price = document.getElementById('price').value;
         const imageUrl = document.getElementById('imageUrl').value;
         const quantity = parseInt(document.getElementById('quantity').value, 10);
-    
+
+        //加一个description，然后加到下面
         // 创建新的对象
-        const Product = {
+        let Product = {
             name: name,
             price: price,
-            imageUrl: imageUrl,
-            quantity: quantity
+            stock: quantity,
+            merchantId: merchantId,
         };
-    
+
+        fetch("http://localhost:8080/api/products/add", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(Product)
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if(data.code === 1){
+                Product = data.data
+            }else {
+                console.log(data.errorMessage);
+            }
+        })
+
         // 将新的对象添加到数组中
         products.push(Product);
-    
         console.log(products);
-    
+
         // 清空表单并隐藏表单容器
         document.getElementById('productForm').reset();
         document.getElementById('formContainer').style.display = 'none';
@@ -79,7 +222,32 @@ document.addEventListener('DOMContentLoaded', function() {
             // 清空之前的查询结果
             const productList = document.getElementById('List');
             productList.innerHTML = '';
-        
+
+            fetch("http://localhost:8080/api/products/merchant/"+merchantId,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.code === 1){
+                        console.log(data);
+                        products = []
+                        for(let i=0;i<data.data.length;i++){
+                            data.data[i].quantity = data.data[i].stock;
+                            products.push(data.data[i]);
+                        }
+                        console.log(products);
+                    }else{
+                        alert(data.errorMessage);
+                    }
+                }).catch(
+                error => {
+                    alert(error.message);
+                }
+            );
+
             // 遍历产品数组并显示每个产品的信息
             products.forEach(product => {
                 const productDiv = document.createElement('div');
@@ -92,11 +260,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 productList.appendChild(productDiv);
             });
         });
+
         document.getElementById('delete').addEventListener('click', function() {
             // 获取用户输入的要删除的商品名称
             document.getElementById('fordelete').style.display='block';
-            const deleteName = document.getElementById('deleteName').value;
-        
+            const deleteId = document.getElementById('deleteName').value;
+
+            fetch("http://localhost:8080/api/products/"+deleteId, {
+                method: 'DELETE',
+            }).then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if(data.code === 1){
+                    console.log("delete success");
+                }else{
+                    console.log(data.errorMessage);
+                }
+            })
+
             // 查找并删除对应的商品
             const index = products.findIndex(product => product.name === deleteName);
             if (index !== -1) {
@@ -131,8 +312,26 @@ document.addEventListener('DOMContentLoaded', function() {
         <td>${parseFloat(Productorders.price.replace('¥', '')).toFixed(2)}</td>
         <td>${Productorders.quantity}</td>
         <td>${(parseFloat(Productorders.price.replace('¥', '')) * Productorders.quantity).toFixed(2)}</td>
-        <td>${Productorders.situation} <br><button class="cancel">取消</button> <button class="finish">完成</button></td>
+        <td>${Productorders.situation} <br><button class="cancel" data-index="${Productorders[i].orderItemId}">取消</button> <button class="finish" data-index="${Productorders[i].orderItemId}">完成</button></td>
         `;
+        const cancelButton = tr.querySelector('.cancel');
+        const finishButton = tr.querySelector('.finish');
+
+        // 为取消按钮添加点击事件监听
+        cancelButton.addEventListener('click', (event) => {
+            const orderItemId = event.target.getAttribute('data-index');
+            updateOrderItem("canel",orderItemId);
+            console.log(`取消按钮被点击，订单下标是: ${index}`);
+            // 你可以在这里执行其他操作，知道是哪个订单被取消
+        });
+
+        // 为完成按钮添加点击事件监听
+        finishButton.addEventListener('click', (event) => {
+            const index = event.target.getAttribute('data-index');
+            updateOrderItem("finish",index);
+            console.log(`完成按钮被点击，订单下标是: ${index}`);
+            // 你可以在这里执行其他操作，知道是哪个订单被完成
+        });
     orderHistoryBody.appendChild(tr); // 将订单信息添加到订单历史表格中
     });
     orderHistoryBody.addEventListener('click',function(event){
@@ -226,4 +425,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
- 
+function updateOrderItem(Status,orderItemId) {
+    fetch("http://localhost:8080/api/orders/orderItems/update/"+orderItemId,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "orderItemId": orderItemId,
+            "status" : Status,
+        })
+    }).then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if(data.code === 1){
+                alert("cancel success");
+            }else{
+                console.log(data.errorMessage)
+            }
+        }).catch(
+        error => {
+            alert(error.message);
+        }
+    )
+}

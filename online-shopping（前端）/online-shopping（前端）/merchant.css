@@ -95,9 +95,9 @@ nav a:hover {
 .section {
     display: none; /* 默认隐藏所有部分 */
 }
-.section:target {
-    display: block; /* 激活部分显示 */
-}
+/* .section:target {
+    display: block; 激活部分显示 */
+/* } */
 .order-summary {
     margin-top: 20px;
 }

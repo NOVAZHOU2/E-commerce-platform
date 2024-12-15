@@ -1,4 +1,5 @@
 
+let userId = 1;
 let profile=document.getElementById('profile');
 const usernameInput = document.querySelector('input[name="username"]');
 const emailInput = document.querySelector('input[name="email"]');
@@ -96,12 +97,49 @@ function Forlogin(){
 }
 function Forhome(){
     document.getElementById('home').style.display='block';
+    fetch("http://localhost:8080/api/products/products",{
+        method: 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+            if(data.code === 1){
+                console.log(data);
+                products = []
+                for(let i=0;i<data.data.length;i++){
+                    data.data[i].quantity = data.data[i].stock;
+                    products.push(data.data[i]);
+                }
+                console.log(products);
+            }else{
+                alert(data.errorMessage);
+            }
+        }).catch(
+        error => {
+            alert(error.message);
+        }
+    );
 }
 function Forcart(){
     document.getElementById('cart').style.display='block';
 }
 function Fororders(){
     document.getElementById('orders').style.display='block';
+    fetch('http://localhost:8080/api/orders/search/'+userId,{
+        method: 'GET',
+    }).then(response => response.json())
+        .then(data => {
+            if(data.code === 1){
+                Productorders = []
+                for (let index in data.data){
+                    Productorders.push(data.data[index]);
+                }
+                console.log(Productorders);
+            }else{
+                console.log("error");
+            }
+        }).catch(error => {
+        console.log("error");
+    })
 }
 function Forcontact(){
     document.getElementById('contact').style.display='block';
