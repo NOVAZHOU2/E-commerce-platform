@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电商登录界面</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>登录</h2>
+        <form id="loginForm">
+            <label for="username">用户名:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">密码:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">登录</button>
+        </form>
+        <br>
+        <button id="registerButton">注册</button>
+    </div>
+
+    <!-- 注册表单 -->
+    <div class="register-container" style="display: none;">
+        <h2>注册</h2>
+        <form id="registerForm">
+            <label for="regUsername">用户名:</label>
+            <input type="text" id="regUsername" name="username" required>
+            <label for="regEmail">邮箱:</label>
+            <input type="email" id="regEmail" name="email" required>
+            <label for="regPhoneNumber">电话:</label>
+            <input type="tel" id="regPhoneNumber" name="phoneNumber" required>
+            <label for="regPassword">密码:</label>
+            <input type="password" id="regPassword" name="password" required>
+            <label for="regRoleName">身份:</label>
+            <select id="regRoleName" name="roleName" required>
+                <option value="user">用户</option>
+                <option value="merchant">商家</option>
+                <option value="admin">管理员</option>
+            </select>
+            <button type="submit">注册</button>
+        </form>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>

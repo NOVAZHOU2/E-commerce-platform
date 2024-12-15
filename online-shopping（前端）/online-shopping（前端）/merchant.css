@@ -1,0 +1,172 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f4f4f4;
+    padding: 10px 0;
+}
+nav a {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 20px;
+}
+nav a:hover {
+    background-color: #ddd;
+}
+.main-content {
+    padding: 20px;
+}
+#profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    position: sticky; /* 添加粘性定位 */
+    top: 0; /* 固定在顶部 */
+    background-color: white; /* 背景色，防止内容重叠 */
+    z-index: 1000; /* 确保在最上层 */
+}
+#set{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    position: sticky; /* 添加粘性定位 */
+    top: 0; /* 固定在顶部 */
+    background-color: white; /* 背景色，防止内容重叠 */
+    z-index: 1000; /* 确保在最上层 */
+}
+.profile img {
+    max-width: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+.profile form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profile form input, .profile form button {
+    margin: 5px 0;
+    padding: 10px;
+    width: 80%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.product-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    width: calc(33.333% - 20px); /* 根据每行的项目数量调整宽度 */
+    box-sizing: border-box;
+}
+.product-item img {
+    max-width: 100%;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+.product-item h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+.product-item p {
+    margin: 5px 0 0;
+    color: #666;
+}
+.section {
+    display: none; /* 默认隐藏所有部分 */
+}
+.section:target {
+    display: block; /* 激活部分显示 */
+}
+.order-summary {
+    margin-top: 20px;
+}
+.order-summary table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.order-summary th, .order-summary td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+.order-summary th {
+    background-color: #f4f4f4;
+}
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.username {
+    cursor: pointer;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {background-color: #f1f1f1}
+.user-profile:hover .dropdown-content {
+    display: block;
+}
+#cart table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#cart th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#cart th {
+    background-color: #f2f2f2;
+}
+
+#orderSummary {
+    margin-top: 20px;
+    text-align: right;
+}
+#formContainer {
+    display: none; /* 初始状态下隐藏表单 */
+}
+#fordelete{
+    display: none;
+}
