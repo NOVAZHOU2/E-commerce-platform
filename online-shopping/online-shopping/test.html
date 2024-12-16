@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>固定侧边栏与滚动回顶部功能</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* 固定侧边栏样式 */
+        #sidebar {
+            position: fixed;
+            top: 50%; /* 垂直居中 */
+            right: 20px;
+            transform: translateY(-50%); /* 垂直居中 */
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* 确保在最上层 */
+        }
+        /* 滚动回顶部按钮样式 */
+        #backToTopBtn {
+            display: none; /* 默认隐藏 */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <img src="your-image-url.jpg" alt="侧边栏图标" style="width: 50px; height: 50px;">
+    <h3>联系客服</h3>
+    <ul>
+        <li><a href="#">购物车</a></li>
+        <li><a href="#">官方客服</a></li>
+        <li><a href="#">反馈</a></li>
+        <li><a href="#">举报</a></li>
+    </ul>
+</div>
+
+<div id="content">
+    <!-- 你的内容 -->
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut est in lectus.</p>
+    <!-- 更多内容 -->
+     <br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1
+     <br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1
+     <br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1<br><br><br><br><br><br><br>1
+</div>
+
+<button id="backToTopBtn" onclick="scrollToTop()">点击此处回顶部</button>
+
+<script>
+    window.onscroll = function() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("backToTopBtn").style.display = "block";
+        } else {
+            document.getElementById("backToTopBtn").style.display = "none";
+        }
+    };
+
+    function scrollToTop() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+</script>
+
+</body>
+</html>
+<!-- 右边回顶部框内容（单独） -->

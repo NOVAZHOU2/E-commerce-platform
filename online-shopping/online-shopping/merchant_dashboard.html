@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="merchant.css">
+    <title>用户主界面</title>
+</head>
+<body>
+    <header>
+        <h1>欢迎来到电商平台</h1>
+        <div class="user-profile">
+            <img src="图片2.png" alt="用户头像" class="user-avatar">
+            <span class="username">商家肘耗</span>
+            <div class="dropdown-content">
+                <a href="#account" class="checkaccount">个人中心</a>
+                <a href="http://localhost:63343/untitled2/E-commerce-platform/online-shopping/online-shopping/index.html" class="checklogin">退出登录</a>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <a href="#home" class="checkhome">主页</a>
+        <a href="#cart" class="checkcart">商品更改</a>
+        <a href="#orders" class="checkorders">我的订单</a>
+        <a href="#contact" class="checkcontact">联系我们</a>
+    </nav>
+    <div id="home" class="main-content section">
+        <ul id="productList" class="product-list">
+            
+            <!-- 更多商品项 -->
+        </ul>
+    </div>
+
+    <div id="cart" class="section">
+        <main>
+            <button id="addProductBtn">添加商品</button>
+            <div id="formContainer">
+                <form id="productForm">
+                    <label for="name">产品名称:</label>
+                    <input type="text" id="name" name="name" required><br><br>
+                    
+                    <label for="price">产品价格 (例如: ¥99.00):</label>
+                    <input type="text" id="price" name="price" required><br><br>
+                    
+                    <label for="imageUrl">产品图片URL:</label>
+                    <input type="url" id="imageUrl" name="imageUrl" required><br><br>
+                    
+                    <label for="quantity">产品数量:</label>
+                    <input type="number" id="quantity" name="quantity" required><br><br>
+                    
+                    <button type="submit">添加产品</button>
+                </form>
+            </div>
+            <button id="delete">删除商品</button>
+            <div id="fordelete">
+            <label for="deleteName">删除商品ID:</label>
+            <input type="number" id="deleteName" name="deleteName" required><br><br>
+            </div>
+
+            <div id="List"></div>
+            <table id="cartTable">
+                
+                <tbody id="cartBody">
+                    <!-- 动态生成的购物车内容 -->
+                </tbody>
+            </table>
+            <div id="orderSummary">
+
+            </div>
+        </main>
+    </div>
+    <div id="orders" class="main-content section">
+        <h2>我的订单</h2>
+        <ul id="orderList" class="order-list">
+            <!-- 动态生成的订单商品项 -->
+        </ul>
+        <div class="order-summary">
+            <h3>订单摘要</h3>
+            <table>
+                <thead>
+                    <tr>
+                <th>订单号</th>
+                <th>商品名称</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>小计</th>
+                <th>订单状态</th>
+                    </tr>
+                </thead>
+                <tbody id="orderSummaryBody">
+                    <!-- 动态生成的订单摘要行 -->
+                </tbody>
+                <tfoot>
+                    <tr>
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div id="account" class="main-content section">
+        <!-- 我的账户内容 -->
+        <div id="profile">
+            <form id="set">
+                <input type="text" name="username" placeholder="用户名">
+                <input type="email" name="email" placeholder="邮箱">
+                <input type="phoneNumber" name="phoneNumber" placeholder="手机号">
+                <input type="password" name="password" placeholder="密码">
+                <!-- <input type="text" name="address" placeholder="收货地址"> -->
+                <button type="submit">提交</button>
+            </form>
+            <div class="actions">
+                <button id="logoutBtn">退出登录</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="contact" class="main-content section">
+        <!-- 联系我们内容 -->
+        <p>QQ:1206081930</p>
+        <p>电话:16602743008</p>
+        <p>邮箱:339981@whut.edu.cn</p>
+    </div>
+    <script src="merchant.js"></script>
+</body>
+</html>
