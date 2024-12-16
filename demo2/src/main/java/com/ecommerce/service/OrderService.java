@@ -5,6 +5,7 @@ import com.ecommerce.model.Order;
 import com.ecommerce.model.OrderItem;
 import com.ecommerce.repository.OrderItemRepository;
 import com.ecommerce.repository.OrderRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ecommerce.service.OrderItemService;
@@ -21,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class OrderService {
 
     @Autowired
@@ -43,7 +45,8 @@ public class OrderService {
         }
         order.setTotal(BigDecimal.valueOf(total));
         order.setUserId(id);
-        order.setOrderDate(Instant.from(LocalDateTime.now()));
+        order.setOrderDate(Instant.now());
+        log.info("orders :{}",order);
         return orderRepository.save(order).getId();
     }
 

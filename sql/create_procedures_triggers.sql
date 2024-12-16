@@ -1,7 +1,7 @@
 DELIMITER //
 DROP TRIGGER IF EXISTS update_inventory_after_order_complete;
 CREATE TRIGGER update_inventory_after_order_complete
-    AFTER UPDATE ON orders
+    AFTER UPDATE ON order_items
     FOR EACH ROW
 BEGIN
         -- 处理订单状态为 "Finished" 时，减少库存（已实现逻辑）
@@ -53,7 +53,7 @@ BEGIN
 
     IF stock >= order_quantity THEN
         -- 创建订单
-        INSERT INTO orders (user_id, order_date, status, total)
+        INSERT INTO orders (user_id, order_date, total)
         VALUES (user_id, NOW(), 'pending', product_price * order_quantity);
 
         -- 获取新创建的订单ID

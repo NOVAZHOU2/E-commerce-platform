@@ -1,28 +1,39 @@
 package com.ecommerce.service;
 
 import com.ecommerce.exception.ResourceNotFoundException;
+import com.ecommerce.model.Order;
 import com.ecommerce.model.OrderItem;
 import com.ecommerce.repository.OrderItemRepository;
+import com.ecommerce.repository.OrderRepository;
 import com.ecommerce.utils.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class OrderItemService {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     // 获取订单详情
-    public List<OrderItem> getOrderItemsById(Long orderId) throws ResourceNotFoundException {
-        List<OrderItem> orderItems = orderItemRepository.findByOrderId(orderId);
-        if (orderItems.isEmpty()) {
+    public List<OrderItem> getOrderItemsById(Long Id) throws ResourceNotFoundException {
+        List<Order> orderItems = orderRepository.findByUserId(Id);
+        List<Long> orderItemIds = new ArrayList<>();
+        for (Order order : orderItems) {
+            orderItemIds.add(order.getId());
+        }
+        List<OrderItem> orderItemList = orderItemRepository.findAllByOrderId(orderItemIds);
+        if (orderItemList.isEmpty()) {
             throw new ResourceNotFoundException("Order not found");
         }
-        return orderItems;
+        return orderItemList;
     }
 
     public List<OrderItem> getOrderItemsByMerchantId(Long merchantId) {
@@ -51,6 +62,7 @@ public class OrderItemService {
             orderItem.setOrderId(id);
             orderItem.setStatus(Status.prepare);
         }
+        log.info("创建订单项:{}",orderItems);
         orderItemRepository.saveAll(orderItems);
     }
 

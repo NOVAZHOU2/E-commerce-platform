@@ -4,6 +4,7 @@ import com.ecommerce.model.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,4 +26,9 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Transactional
     @Query(value = "DELETE FROM order_items WHERE order_id = ?1", nativeQuery = true)
     void deleteByOrderId(Long orderId);
+
+    @Modifying
+    @Transactional
+    @Query("select o from OrderItem o where o.orderId in :orderIds ")
+    List<OrderItem> findAllByOrderId(@Param("orderIds") List<Long> orderIds);
 }

@@ -47,12 +47,11 @@ public class UserService {
             if (!role.isPresent()) {
                 throw new IllegalArgumentException("Invalid role name");
             }
-
             // 创建用户对象并设置角色
             User user = new User();
             BeanUtils.copyProperties(userDTO, user);
             user.setRole(role.get());
-
+            log.info("{}",user);
             userRepository.save(user); // 这里保存失败时，会回滚自增值
             return user;
 
@@ -93,6 +92,7 @@ public class UserService {
     }
 
     public void update(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.updateUser(user);
     }
 }
